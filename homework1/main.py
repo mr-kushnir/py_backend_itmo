@@ -4,23 +4,25 @@ from http import HTTPStatus
 
 from urllib.parse import parse_qs
 
-
+# Основная функция - проверка типа соединения и методов
 async def app(scope, receive, send) -> None:
     assert scope["type"] == "http"
     method = scope["method"]
     path = scope["path"]
 
+    # Определяем обработчик
     if method == "GET" and path == "/factorial":
-        await factorial_handler(scope, receive, send)
+        await factor(scope, receive, send)
     elif method == "GET" and path.startswith("/fibonacci"):
-        await fibonacci_handler(scope, receive, send)
+        await fib(scope, receive, send)
     elif method == "GET" and path == "/mean":
-        await mean_handler(scope, receive, send)
+        await array(scope, receive, send)
+    # Если нет - 404
     else:
         await not_found(send)
 
-
-async def factorial_handler(scope, receive, send):
+# получаем строку и вычисляем факториал
+async def factor(scope, receive, send):
     query_string = scope.get("query_string", b"").decode()
     query_params = parse_qs(query_string)
     n_values = query_params.get("n")
@@ -28,22 +30,23 @@ async def factorial_handler(scope, receive, send):
     if not n_values:
         await unprocessable_entity(send)
         return
-
+    # Пытаемся преобразовать в число, если нет  - 422
     try:
         n = int(n_values[0])
     except ValueError:
         await unprocessable_entity(send)
         return
-
+    # если отрицательное - 400
     if n < 0:
-        await bad_request(send, "Invalid value for n, must be non-negative")
+        await bad_request(send, "Неверное значение, должно быть неотрицательным")
         return
-
+    # если ок - 200 и json
     result = math.factorial(n)
     await json_response(send, {"result": result})
 
-
-async def fibonacci_handler(scope, receive, send):
+# Фибоначчи
+async def fib(scope, receive, send):
+    #извлекаем параметр 'n' из пути
     parts = scope["path"].split("/")
     if len(parts) < 3:
         await unprocessable_entity(send)
@@ -52,11 +55,12 @@ async def fibonacci_handler(scope, receive, send):
     try:
         n = int(parts[2])
     except ValueError:
+        # если нет - 422
         await unprocessable_entity(send)
         return
 
     if n < 0:
-        await bad_request(send, "Invalid value for n, must be non-negative")
+        await bad_request(send, "Неверное значение, должно быть неотрицательным")
         return
 
     a, b = 0, 1
@@ -66,7 +70,7 @@ async def fibonacci_handler(scope, receive, send):
     await json_response(send, {"result": b})
 
 
-async def mean_handler(scope, receive, send):
+async def array(scope, receive, send):
     body = await get_request_body(receive)
     try:
         data = json.loads(body)
@@ -77,7 +81,7 @@ async def mean_handler(scope, receive, send):
         return
 
     if not data:
-        await bad_request(send, "Invalid value for body, must be non-empty array of floats")
+        await bad_request(send, "Неверное значение, должно быть массивом")
         return
 
     result = sum(data) / len(data)
