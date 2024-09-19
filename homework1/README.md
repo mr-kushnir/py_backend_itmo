@@ -26,7 +26,7 @@ git clone https://github.com/mr-kushnir/backend_itmo.git
 
 2. Перейдите в каталог проекта:
 
-cd hw1-kush-api/homework1
+cd homework1
 
 
 4. **Установите зависимости:**
