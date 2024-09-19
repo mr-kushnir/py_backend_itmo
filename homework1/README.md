@@ -13,7 +13,7 @@
 
 - main.py — основной файл
 - requirements.txt — зависимости.
-- tests/ — каталог с тестами
+- test_homework_1.py — тест
 
 ## Требования
 - Установленный uvicorn для запуска ASGI-приложения
@@ -26,7 +26,7 @@ git clone https://github.com/mr-kushnir/backend_itmo.git
 
 2. Перейдите в каталог проекта:
 
-cd hw1-kush-api/homework1
+cd homework1
 
 
 4. **Установите зависимости:**
@@ -45,7 +45,7 @@ uvicorn main:app --reload
 
 1. Установите зависимости:
    
-   pip install pytest requests
+   pip install -r requirements.txt
   
 
 2. Запустите тесты:
