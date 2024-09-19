@@ -50,5 +50,5 @@ uvicorn main:app --reload
 
 2. Запустите тесты:
 
-   pytest tests/test_math_api.py
+   pytest test_homework_1.py
 

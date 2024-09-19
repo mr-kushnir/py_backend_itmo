@@ -16,7 +16,7 @@ async def app(scope, receive, send) -> None:
     elif method == "GET" and path.startswith("/fibonacci"):
         await fib(scope, receive, send)
     elif method == "GET" and path == "/mean":
-        await array(scope, receive, send)
+        await mean(scope, receive, send)
     # Если нет - 404
     else:
         await not_found(send)
@@ -70,7 +70,7 @@ async def fib(scope, receive, send):
     await json_response(send, {"result": b})
 
 
-async def array(scope, receive, send):
+async def mean(scope, receive, send):
     body = await get_request_body(receive)
     try:
         data = json.loads(body)
