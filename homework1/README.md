@@ -45,7 +45,7 @@ uvicorn main:app --reload
 
 1. Установите зависимости:
    
-   pip install pytest requests
+   pip install -r requirements.txt
   
 
 2. Запустите тесты:
