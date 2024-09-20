@@ -22,7 +22,7 @@
 ## Установка
 1. Клонируйте репозиторий:
 
-git clone https://github.com/mr-kushnir/backend_itmo.git
+git clone https://github.com/mr-kushnir/py_backend_itmo.git
 
 2. Перейдите в каталог проекта:
 
